@@ -1,13 +1,14 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Iterate Minor Version'
+description: 'Returns a list of all patch versions up to the supplied version within this minor version'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  version:
+    description: 'the version to iterate up to (e.g. 1.19.2)'
     required: true
-    default: '1000'
 outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  minorOnly:
+    description: 'The version in major.minor format only'
+  versions:
+    description: 'A list of all patch versions up to the supplied version within this minor version (e.g. 1.19, 1.19.1, 1.19.2)'
 runs:
   using: 'node16'
   main: 'dist/index.js'

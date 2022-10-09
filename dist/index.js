@@ -1,6 +1,35 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 347:
+/***/ ((module) => {
+
+let iterateMinorVersion = async function (version) {
+    if (typeof version !== 'string') {
+        throw new Error('version not a string');
+    }
+    const versionParts = version.split('.');
+    if (versionParts.length !== 3) {
+        throw new Error('version must be in the format x.y.z');
+    }
+    const major = versionParts[0];
+    const minor = versionParts[1];
+    const patch = versionParts[2];
+    const versions = [];
+    for (let i = 0; i < patch; i++) {
+        versions.push(`${major}.${minor}.${i}`);
+    }
+    return {
+        minorOnly: `${major}.${minor}`,
+        versions: versions
+    }
+};
+
+module.exports = iterateMinorVersion;
+
+
+/***/ }),
+
 /***/ 351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2688,23 +2717,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 258:
-/***/ ((module) => {
-
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
-
-
-/***/ }),
-
 /***/ 357:
 /***/ ((module) => {
 
@@ -2835,20 +2847,17 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(186);
-const wait = __nccwpck_require__(258);
+const iterateMinorVersion = __nccwpck_require__(347);
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    const version = core.getInput('version');
+    core.info(`Listing prior patches in minor version of ${version} ...`);
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+    const {minorOnly, versions} = await iterateMinorVersion(version);
 
-    core.setOutput('time', new Date().toTimeString());
+    core.setOutput('minorOnly', minorOnly);
+    core.setOutput('versions', versions);
   } catch (error) {
     core.setFailed(error.message);
   }
