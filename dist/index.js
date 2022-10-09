@@ -10,18 +10,19 @@ let iterateMinorVersion = async function (version) {
     }
     const versionParts = version.split('.');
     if (versionParts.length !== 3) {
-        throw new Error('version must be in the format x.y.z');
+        throw new Error('version must be in the format major.minor.patch');
     }
     const major = versionParts[0];
     const minor = versionParts[1];
     const patch = versionParts[2];
-    const versions = [];
-    for (let i = 0; i < patch; i++) {
+    const minorOnly = major + '.' + minor;
+    const versions = [minorOnly];
+    for (let i = 1; i <= patch; i++) {
         versions.push(`${major}.${minor}.${i}`);
     }
     return {
-        minorOnly: `${major}.${minor}`,
-        versions: versions
+        minorOnly,
+        versions
     }
 };
 
