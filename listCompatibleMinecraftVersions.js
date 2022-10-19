@@ -1,4 +1,6 @@
-let iterateMinorVersion = async function (version) {
+const incompatibleVersions = require('./versions');
+
+let listCompatibleMinecraftVersions = async function (version) {
     if (typeof version !== 'string') {
         throw new Error('version not a string');
     }
@@ -9,15 +11,17 @@ let iterateMinorVersion = async function (version) {
     const major = versionParts[0];
     const minor = versionParts[1];
     const patch = versionParts[2];
-    const minorOnly = major + '.' + minor;
-    const versions = [minorOnly];
+    const versionWithoutPatch = major + '.' + minor;
+    let versions = [versionWithoutPatch];
     for (let i = 1; i <= patch; i++) {
         versions.push(`${major}.${minor}.${i}`);
     }
+    versions = versions.filter(it => !incompatibleVersions[version].includes(it));
+
     return {
-        minorOnly,
+        versionWithoutPatch,
         versions
     }
 };
 
-module.exports = iterateMinorVersion;
+module.exports = listCompatibleMinecraftVersions;

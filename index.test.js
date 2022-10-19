@@ -1,4 +1,4 @@
-const iterateMinorVersion = require('./iterate');
+const iterateMinorVersion = require('./listCompatibleMinecraftVersions');
 const process = require('process');
 const cp = require('child_process');
 const path = require('path');
@@ -12,8 +12,8 @@ test('throws malformed version', async () => {
 });
 
 test('iterate 1.7.10', async () => {
-  const {minorOnly, versions} = await iterateMinorVersion('1.6.4')
-  expect(minorOnly).toBe('1.6');
+  const {versionWithoutPatch, versions} = await iterateMinorVersion('1.6.4')
+  expect(versionWithoutPatch).toBe('1.6');
   expect(versions).toStrictEqual(['1.6', '1.6.1', '1.6.2', '1.6.3', '1.6.4']);
 });
 

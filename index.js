@@ -1,14 +1,14 @@
 const core = require('@actions/core');
-const iterateMinorVersion = require('./iterate');
+const listCompatibleMinecraftVersions = require('./listCompatibleMinecraftVersions');
 
 async function run() {
   try {
     const version = core.getInput('version');
-    core.info(`Listing prior patches in minor version of ${version} ...`);
+    core.info(`Listing compatible patch versions of ${version} ...`);
 
-    const {minorOnly, versions} = await iterateMinorVersion(version);
+    const {versionWithoutPatch, versions} = await listCompatibleMinecraftVersions(version);
 
-    core.setOutput('minorOnly', minorOnly);
+    core.setOutput('versionWithoutPatch', versionWithoutPatch);
     core.setOutput('versions', versions);
   } catch (error) {
     core.setFailed(error.message);

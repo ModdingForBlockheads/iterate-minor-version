@@ -5,7 +5,7 @@ inputs:
     description: 'the version to iterate up to (e.g. 1.19.2)'
     required: true
 outputs:
-  minorOnly:
+  versionWithoutPatch:
     description: 'The version in major.minor format only'
   versions:
     description: 'A list of all patch versions up to the supplied version within this minor version (e.g. 1.19, 1.19.1, 1.19.2)'
