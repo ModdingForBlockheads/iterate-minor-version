@@ -16,7 +16,9 @@ let listCompatibleMinecraftVersions = async function (version) {
     for (let i = 1; i <= patch; i++) {
         versions.push(`${major}.${minor}.${i}`);
     }
-    versions = versions.filter(it => !incompatibleVersions[version].includes(it));
+    if (incompatibleVersions[version]) {
+        versions = versions.filter(it => !incompatibleVersions[version].includes(it));
+    }
 
     return {
         versionWithoutPatch,

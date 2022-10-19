@@ -1,4 +1,4 @@
-name: 'Iterate Minor Version'
+name: 'List Compatible Minecraft Versions'
 description: 'Returns a list of all patch versions up to the supplied version within this minor version'
 inputs:
   version:
@@ -8,7 +8,7 @@ outputs:
   versionWithoutPatch:
     description: 'The version in major.minor format only'
   versions:
-    description: 'A list of all patch versions up to the supplied version within this minor version (e.g. 1.19, 1.19.1, 1.19.2)'
+    description: 'A list of all patch versions compatible with the supplied minor version (e.g. 1.19, 1.19.1, 1.19.2)'
 runs:
   using: 'node16'
   main: 'dist/index.js'
