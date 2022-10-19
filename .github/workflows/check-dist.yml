@@ -51,7 +51,7 @@ jobs:
           path: dist/
 
       - name: Create a pull request to fix the dist/ directory
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ failure() && steps.diff.conclusion == 'failure' && github.event_name == 'push' }}
         run: |
           git config user.name "GitHub Actions"
           git config user.email "<>"
